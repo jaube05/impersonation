@@ -1,0 +1,40 @@
+<?php
+
+use Drupal\Core\Session\AccountProxyInterface;
+use Drupal\user\UserInterface;
+
+function impersonation_user_load(array $entities) {
+  if (!empty($_SESSION['impersonation_roles'])) {
+    /** @var AccountProxyInterface */
+    $sessionUser = \Drupal::currentUser();
+    if (!empty($entities[$sessionUser->id()])) {
+      /** @var UserInterface $user */
+      $user = $entities[$sessionUser->id()];
+
+      // Clear current roles.
+      foreach ($user->getRoles() as $rid) {
+        if ($rid != 'impersonation') {
+          $entities[$sessionUser->id()]->removeRole($rid);
+        }
+      }
+
+      // Use roles stored into session as user roles.
+        // if session var is array
+        if (is_array($_SESSION['impersonation_roles'])) {
+            // Use roles stored into session as user roles.
+            foreach ($_SESSION['impersonation_roles'] as $rid) {
+                // Assign requested role.
+                $entities[$sessionUser->id()]->addRole($rid);
+            }
+        }
+        else { // if string
+            $entities[$sessionUser->id()]->addRole($rid);
+        }
+
+      $sessionUser->setAccount($entities[$sessionUser->id()]);
+    }
+
+    $renderCache = \Drupal::service('cache.render');
+    $renderCache->invalidateAll();
+  }
+}

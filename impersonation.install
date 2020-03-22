@@ -1,0 +1,25 @@
+<?php
+
+/**
+ * Implements hook_install().
+ */
+function impersonation_install() {
+  // @todo: port to D8
+  //if (!variable_get('impersonation_store_mode', NULL)) {
+  //  variable_set('impersonation_store_mode', 'database');
+  //}
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function impersonation_uninstall() {
+  // Check if 'impersonation' user role already exists.
+  $role = entity_load('user_role', 'impersonation');
+  if (!empty($role)) {
+    $role->delete();
+  }
+
+  // @todo: port to D8
+  //variable_del('impersonation_store_mode');
+}

@@ -1,0 +1,10 @@
+impersonation.switchrole:
+  path: /impersonation/{rid}
+  defaults:
+    # _content: 'Drupal\impersonation\Controller\ImpersonationController::switchRole'
+    _controller: 'Drupal\impersonation\Controller\ImpersonationController::switchRole'
+    _title: 'Switch Role'
+    _form: '\Drupal\impersonation\Form\ImpersonationForm'
+  requirements:
+    _custom_access: '\Drupal\impersonation\Controller\ImpersonationController::access'
+    _csrf_token: 'TRUE'

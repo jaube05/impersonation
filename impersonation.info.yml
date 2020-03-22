@@ -1,0 +1,13 @@
+name: Impersonation
+description: Provides an option to change role for testing purposes.
+package: Custom
+type: module
+# version: 1.0
+# core: 8.x
+# Information added by Drupal.org packaging script on 2014-10-06
+version: '8.x-1.x-dev'
+core: '8.x'
+project: 'impersonation'
+datestamp: 1412595535
+dependencies:
+  - block 
